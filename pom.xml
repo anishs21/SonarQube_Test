@@ -24,8 +24,7 @@
             <artifactId>mockito-all</artifactId>
             <version>1.10.19</version>
             <scope>test</scope>
-        </dependency>
-    </dependencies>
+</dependency>
 
     <build>
         <plugins>
