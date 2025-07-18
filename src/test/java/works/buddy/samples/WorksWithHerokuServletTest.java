@@ -32,10 +32,12 @@ public class WorksWithHerokuServletTest {
     @Test
     public void testDoGet() throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        PrintWriter writer = new PrintWriter(out);
+        PrintWriter writer = new PrintWriter(out, true); // autoFlush = true
         when(response.getWriter()).thenReturn(writer);
 
         servlet.doGet(request, response);
-        assertEquals("Buddy Works with Heroku", new String( out.toByteArray(), "UTF-8"));
+        writer.flush(); // Ensure everything is written to the stream
+
+        assertEquals("Buddy Works with Heroku", out.toString("UTF-8"));
     }
 }
