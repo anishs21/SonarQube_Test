@@ -8,7 +8,9 @@ import org.mockito.MockitoAnnotations;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
@@ -24,20 +26,21 @@ public class WorksWithHerokuServletTest {
     private HttpServletResponse response;
 
     @Before
-    public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
+    public void setUp() {
+        MockitoAnnotations.openMocks(this); // Modern version
         servlet = new WorksWithHerokuServlet();
     }
 
     @Test
     public void testDoGet() throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        PrintWriter writer = new PrintWriter(out, true); // autoFlush = true
+        PrintWriter writer = new PrintWriter(new OutputStreamWriter(out, StandardCharsets.UTF_8), true);
         when(response.getWriter()).thenReturn(writer);
 
         servlet.doGet(request, response);
-        writer.flush(); // Ensure everything is written to the stream
+        writer.flush(); // Ensure all content is written
 
-        assertEquals("Buddy Works with Heroku", out.toString("UTF-8"));
+        String actualOutput = out.toString(StandardCharsets.UTF_8.name()).trim();
+        assertEquals("Buddy Works with Heroku", actualOutput);
     }
 }
