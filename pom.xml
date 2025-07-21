@@ -5,7 +5,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>my-java-web-app</groupId>
-    <artifactId>works-with-heroku</artifactId>
+    <artifactId>my-java-web-ap</artifactId>
     <version>1.0</version>
     <packaging>war</packaging>
 
